@@ -17,6 +17,8 @@ def get_allowed_eras(resonance):
             'Run2016_UL_HIPM',
             'Run2016_UL',
             'Run2017_UL',
+	    'Run2017UL_MiniAODv2_pilot',
+	    'Run2017UL_MiniAOD_pilot',
             'Run2018_UL',
             # rereco
             'Run2016',
@@ -51,6 +53,10 @@ def get_allowed_sub_eras(resonance, era):
                 f'Run2016{b}' for b in 'FGH']+['DY_madgraph'],
             'Run2017_UL': ['Run2017'] + [
                 f'Run2017{b}' for b in 'BCDEF']+['DY_madgraph'],
+	    'Run2017UL_MiniAODv2_pilot': ['Run2017'] + [
+		f'Run2017{b}' for b in 'EF']+['DY_madgraph'],
+	    'Run2017UL_MiniAOD_pilot': ['Run2017'] + [
+		f'Run2017{b}' for b in 'EF']+['DY_madgraph'],
             'Run2018_UL': ['Run2018'] + [
                 f'Run2018{b}' for b in 'ABCD']+['DY_madgraph', 'DY_powheg'],
             # rereco
@@ -95,6 +101,8 @@ def get_data_mc_sub_eras(resonance, era):
             'Run2016_UL_HIPM': ['Run2016', 'DY_madgraph'],
             'Run2016_UL': ['Run2016', 'DY_madgraph'],
             'Run2017_UL': ['Run2017', 'DY_madgraph'],
+            'Run2017UL_MiniAODv2_pilot': ['Run2017', 'DY_madgraph'],
+            'Run2017UL_MiniAOD_pilot': ['Run2017', 'DY_madgraph'],
             # TODO: decide how to handle alternate generators
             'Run2018_UL': ['Run2018', 'DY_madgraph'],
             # rereco

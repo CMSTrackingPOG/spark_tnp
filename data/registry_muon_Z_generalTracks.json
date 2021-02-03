@@ -490,5 +490,77 @@
         "treename": "tpTree/fitter_tree",
         "luminosity": -1,
         "version": 1
+    },
+    {
+        "particle": "muon",
+        "resonance": "Z",
+        "era": "Run2017UL_MiniAODv2_pilot",
+        "subEra": "Run2017E",
+        "probe": "generalTracks",
+        "parquet": ["/cms/muon_pog/parquet/muon/Z/Run2017UL_MiniAODv2_pilot/Run2017E/tnp.parquet"],
+        "root": [],
+        "treename": "muon/tree",
+        "luminosity": 9.278,
+        "version": 1
+    },
+    {
+        "particle": "muon",
+        "resonance": "Z",
+        "era": "Run2017UL_MiniAODv2_pilot",
+        "subEra": "Run2017F",
+        "probe": "generalTracks",
+        "parquet": ["/cms/muon_pog/parquet/muon/Z/Run2017UL_MiniAODv2_pilot/Run2017F/tnp.parquet"],
+        "root": [],
+        "treename": "muon/tree",
+        "luminosity": 13.540,
+        "version": 1
+    },
+    {
+        "particle": "muon",
+        "resonance": "Z",
+        "era": "Run2017UL_MiniAODv2_pilot",
+        "subEra": "DY_madgraph",
+        "probe": "generalTracks",
+        "parquet": ["/cms/muon_pog/parquet/muon/Z/Run2017UL_MiniAODv2_pilot/DY_madgraph/tnp.parquet"],
+        "root": [],
+        "treename": "muon/tree",
+        "luminosity": -1,
+        "version": 1
+    },
+    {
+        "particle": "muon",
+        "resonance": "Z",
+        "era": "Run2017UL_MiniAOD_pilot",
+        "subEra": "Run2017E",
+        "probe": "generalTracks",
+        "parquet": ["/cms/muon_pog/parquet/muon/Z/Run2017UL_MiniAOD_pilot/Run2017E/tnp.parquet"],
+        "root": [],
+        "treename": "muon/tree",
+        "luminosity": 9.278,
+        "version": 1
+    },
+    {
+        "particle": "muon",
+        "resonance": "Z",
+        "era": "Run2017UL_MiniAOD_pilot",
+        "subEra": "Run2017F",
+        "probe": "generalTracks",
+        "parquet": ["/cms/muon_pog/parquet/muon/Z/Run2017UL_MiniAOD_pilot/Run2017F/tnp.parquet"],
+        "root": [],
+        "treename": "muon/tree",
+        "luminosity": 13.540,
+        "version": 1
+    },
+    {
+        "particle": "muon",
+        "resonance": "Z",
+        "era": "Run2017UL_MiniAOD_pilot",
+        "subEra": "DY_madgraph",
+        "probe": "generalTracks",
+        "parquet": ["/cms/muon_pog/parquet/muon/Z/Run2017UL_MiniAOD_pilot/DY_madgraph/tnp.parquet"],
+        "root": [],
+        "treename": "muon/tree",
+        "luminosity": -1,
+        "version": 1
     }
 ]

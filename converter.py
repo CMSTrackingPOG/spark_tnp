@@ -15,9 +15,15 @@ def run_convert(spark, particle, resonance, era, subEra, customDir=''):
     # fnames = registry.root(particle, probe, resonance, era, subEra)
     # fnames = ['root://eosuser' + f for f in fnames]
     
+    #baseDir = os.path.join(
+    #    '/hdfs/analytix.cern.ch/user',
+    #    getpass.getuser(), customDir, 'root',
+    #    particle, resonance, era, subEra
+    #    )
+
     baseDir = os.path.join(
-        '/hdfs/analytix.cern.ch/user',
-        getpass.getuser(), customDir, 'root',
+        '/hdfs/analytix.cern.ch/cms/muon_pog',
+        customDir, 'root',
         particle, resonance, era, subEra
         )
     
@@ -25,9 +31,9 @@ def run_convert(spark, particle, resonance, era, subEra, customDir=''):
 
     fnames = glob.glob(os.path.join(baseDir, f'{baseDir}/*.root'))
     fnames = [f.replace('/hdfs/analytix.cern.ch',
-                        'hdfs://analytix') for f in fnames]
+                        'hdfs://analytix/') for f in fnames]
     
-    outDir = os.path.join('parquet', customDir, particle, resonance, era, subEra)     
+    outDir = os.path.join('hdfs://analytix/cms/muon_pog/parquet', customDir, particle, resonance, era, subEra)     
     outname = os.path.join(outDir, 'tnp.parquet')
     
     # treename = 'tpTree/fitter_tree'
