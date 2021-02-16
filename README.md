@@ -68,6 +68,14 @@ source env-lxplus.sh
 
 **Note**: Do not forget to make sure you have a valid kerberos token with `kinit`.
 
+### Recommended
+
+To produce the new common schema jsons recommended by xPOG in addition to the classic style jsons, an additional library ([correctionlib]((https://github.com/nsmith-/correctionlib))) is needed:
+
+```bash
+pip install --user correctionlib==1.1
+```
+
 ### Optional
 
 Install `tqdm` packaged for a nice progress bar.
