@@ -1,6 +1,7 @@
 {
     "efficiencies": [
-        ["LooseID", "TrackerMuons"]
+        ["LooseID", "TrackerMuons"],
+	["MediumID", "TrackerMuons"]
     ],
     "selection": "tag_pt>26 and tag_abseta<2.4 and HLT_IsoMu24_v==1 and tag_relIso04<0.2 and abs(pair_dz)<0.5 and abs(probe_dxy) < 0.2 and abs(tag_dxy) < 0.2 and abs(probe_dz) < 0.5 and abs(tag_dz) < 0.5",
     "definitions": {
@@ -12,8 +13,8 @@
 	"tag_abseta": "abs(tag_eta)"
     },
     "binning": {
-        "pt": [15, 20, 25, 30, 40, 50, 60, 120],
-        "abseta": [0, 0.9, 1.2, 2.1, 2.4],
+        "pt": [20, 30, 40, 50, 120],
+        "abseta": [0, 1.8, 2.4],
         "eta": [-2.4, -2.1, -1.6, -1.2, -0.9, -0.3, -0.2, 0.2, 0.3, 0.9, 1.2, 1.6, 2.1, 2.4],
         "njets": [-0.5, 0.5, 1.5, 2.5, 3.5, 4.5],
         "nvtx": "np.array(range(10, 60, 5))",
@@ -35,21 +36,30 @@
 	["abseta", "pt"]
     ],
     "shifts": {
+	"TagIsoUp": {
+    	    "selection": "tag_pt>26 and tag_abseta<2.4 and HLT_IsoMu24_v==1 and tag_relIso04<0.3 and abs(pair_dz)<0.5 and abs(probe_dxy) < 0.2 and abs(tag_dxy) < 0.2 and abs(probe_dz) < 0.5 and abs(tag_dz) < 0.5"
+	},
+	"TagIsoDown": {
+    	    "selection": "tag_pt>26 and tag_abseta<2.4 and HLT_IsoMu24_v==1 and tag_relIso04<0.1 and abs(pair_dz)<0.5 and abs(probe_dxy) < 0.2 and abs(tag_dxy) < 0.2 and abs(probe_dz) < 0.5 and abs(tag_dz) < 0.5"
+	}
     },
     "fitShifts": {
+	"AltSig": {"fitType": "AltSig"},
+	"tagIsoUp": {"shiftType": "tagIsoUp", "inType": "TagIsoUp"},
+	"tagIsoDown": {"shiftType": "tagIsoDown", "inType": "TagIsoDown"}
     },
     "systematics" : {
         "SF": {
-            "fitTypes": [],
-            "shiftTypes": []
+            "fitTypes": ["AltSig"],
+            "shiftTypes": ["tagIso"]
         },
         "dataEff": {
-            "fitTypes": [],
-            "shiftTypes": []
+            "fitTypes": ["AltSig"],
+            "shiftTypes": ["tagIso"]
         },
         "mcEff": {
             "fitTypes": [],
-            "shiftTypes": []
+            "shiftTypes": ["tagIso"]
         }
     }
 }
