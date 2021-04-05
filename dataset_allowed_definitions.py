@@ -28,7 +28,9 @@ def get_allowed_eras(resonance):
             'Run2018_dR0p1',
             'Run2018_dR0p2',
             'Run2018_dR0p3',
-            'Run2018_dR0p4'
+            'Run2018_dR0p4',
+	    # for tutorial
+	    'Run2018_tutorial'
         ],
         'JPsi': [
             # heavy ion
@@ -75,6 +77,8 @@ def get_allowed_sub_eras(resonance, era):
                f'Run2018{b}' for b in 'ABCD']+['DY_madgraph'],
             'Run2018_dR0p4': ['Run2018'] + [
                f'Run2018{b}' for b in 'ABCD']+['DY_madgraph'],
+	    # for tutorial
+	    'Run2018_tutorial': ['Run2018'] + ['Run2018A'] + ['DY_madgraph']
         },
         'JPsi': {
             # ultra legacy
@@ -114,6 +118,8 @@ def get_data_mc_sub_eras(resonance, era):
             'Run2018_dR0p2': ['Run2018', 'DY_madgraph'],
             'Run2018_dR0p3': ['Run2018', 'DY_madgraph'],
             'Run2018_dR0p4': ['Run2018', 'DY_madgraph'],
+	    # for tutorial
+	    'Run2018_tutorial': ['Run2018', 'DY_madgraph']
         },
         'JPsi': {
             # ultra legacy
