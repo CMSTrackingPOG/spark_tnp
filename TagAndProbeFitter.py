@@ -16,9 +16,9 @@ class TagAndProbeFitter:
         if resonance == 'Z':
             self._peak = 90
             self._fit_var_min = 60
-            self._fit_var_max = 140
+            self._fit_var_max = 120
             self._fit_range_min = 70
-            self._fit_range_max = 130
+            self._fit_range_max = 110
         elif resonance == 'JPsi':
             self._peak = 3.10
             self._fit_var_min = 2.80
@@ -42,7 +42,6 @@ class TagAndProbeFitter:
             vMin = self._fit_var_min
         if vMax is None:
             vMax = self._fit_var_max
-            
         self._fitVar = v
         self._fitVarMin = vMin
         self._fitVarMax = vMax
@@ -55,9 +54,11 @@ class TagAndProbeFitter:
 
     def set_fit_range(self, fMin=None, fMax=None):
         if fMin is None:
-            self._fitRangeMin = self._fit_range_min
+            fMin = self._fit_range_min
         if fMax is None:
-            self._fitRangeMax = self._fit_range_max
+            fMax = self._fit_range_max
+        self._fitRangeMin = fMin
+        self._fitRangeMax = fMax
 
     def set_histograms(self, hPass, hFail, peak=None):
         if peak is None:
@@ -128,8 +129,8 @@ class TagAndProbeFitter:
                 "FCONV::sigFail({}, sigPhysFail , sigResFail)".format(
                     self._fitVar))
             # update initial guesses
-            nSigP = self._nGenPass_central / self._nGenPass * self._nPass
-            nSigF = self._nGenFail_central / self._nGenFail * self._nFail
+            nSigP = self._nGenPass_central / self._nGenPass * self._nPass if self._nGenPass > 0. else 0.
+            nSigF = self._nGenFail_central / self._nGenFail * self._nFail if self._nGenFail > 0. else 0.
             if nSigP < 0.5:
                 nSigP = 0.9 * self._nPass
             if nSigF < 0.5:
@@ -302,11 +303,13 @@ class TagAndProbeFitter:
 
         nP = nSigP.getVal()
         e_nP = nSigP.getError()
+        rele_nP = e_nP / nP if nP > 0. else 0.
         nF = nSigF.getVal()
         e_nF = nSigF.getError()
+        rele_nF = e_nF / nF if nF > 0. else 0.
         nTot = nP + nF
         eff = nP / (nP + nF)
-        e_eff = 1.0 / nTot * (e_nP**2 / nP**2 + e_nF**2 / nF**2)**0.5
+        e_eff = 1.0 / nTot * (rele_nP**2 + rele_nF**2)**0.5
 
         text1 = ROOT.TPaveText(0, 0.8, 1, 1)
         text1.SetFillColor(0)

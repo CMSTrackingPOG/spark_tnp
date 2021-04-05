@@ -11,8 +11,9 @@ ROOT.gROOT.LoadMacro('RooCMSShape.cc+')
 
 
 def hist_fitter(outFName, inFName, binName, templateFName, plotDir,
-                version='Nominal', histType='data', shiftType='Nominal', resonance='Z'):
-    
+                version='Nominal', histType='data', shiftType='Nominal', resonance='Z',
+                effType=''):
+
     # Nominal
     if resonance == 'JPsi':
         tnpNomFitSig = [
@@ -44,14 +45,23 @@ def hist_fitter(outFName, inFName, binName, templateFName, plotDir,
         "Gaussian::sigResPass(x, meanP, sigmaP)",
         "Gaussian::sigResFail(x, meanF, sigmaF)",
         ]
-        tnpNomFitBkg = [
-            "acmsP[60., 50., 190.]", "betaP[0.05, 0.01, 0.08]",
-            "gammaP[0.1, -2, 2]", "peakP[91.0]",
-            "acmsF[60., 50., 190.]", "betaF[0.05, 0.01, 0.08]",
-            "gammaF[0.1, -2, 2]", "peakF[91.0]",
-            "RooCMSShape::bkgPass(x, acmsP, betaP, gammaP, peakP)",
-            "RooCMSShape::bkgFail(x, acmsF, betaF, gammaF, peakF)",
-        ]
+        # Exponential is the nominal bkg shape for trigger SFs
+        if effType=='trig':
+            tnpNomFitBkg = [
+                "alphaP[-0.1, -5., 5.]",
+                "alphaF[-0.1, -5., 5.]",
+                "Exponential::bkgPass(x, alphaP)",
+                "Exponential::bkgFail(x, alphaF)",
+            ]
+        else:
+            tnpNomFitBkg = [
+                "acmsP[60., 50., 190.]", "betaP[0.05, 0.01, 0.08]",
+                "gammaP[0.1, -2, 2]", "peakP[91.0]",
+                "acmsF[60., 50., 190.]", "betaF[0.05, 0.01, 0.08]",
+                "gammaF[0.1, -2, 2]", "peakF[91.0]",
+                "RooCMSShape::bkgPass(x, acmsP, betaP, gammaP, peakP)",
+                "RooCMSShape::bkgFail(x, acmsF, betaF, gammaF, peakF)",
+            ]
 
     # NominalOld
     tnpNomFitOldSig = [
@@ -114,12 +124,22 @@ def hist_fitter(outFName, inFName, binName, templateFName, plotDir,
     ]
 
     # AltBkg
-    tnpAltBkgFit = [
-        "alphaP[0., -5., 5.]",
-        "alphaF[0., -5., 5.]",
-        "Exponential::bkgPass(x, alphaP)",
-        "Exponential::bkgFail(x, alphaF)",
-    ]
+    if effType=='trig':
+        tnpAltBkgFit = [
+            "acmsP[60., 50., 190.]", "betaP[0.05, 0.01, 0.08]",
+            "gammaP[0.1, -2, 2]", "peakP[91.0]",
+            "acmsF[60., 50., 190.]", "betaF[0.05, 0.01, 0.08]",
+            "gammaF[0.1, -2, 2]", "peakF[91.0]",
+            "RooCMSShape::bkgPass(x, acmsP, betaP, gammaP, peakP)",
+            "RooCMSShape::bkgFail(x, acmsF, betaF, gammaF, peakF)",
+        ]
+    else:
+        tnpAltBkgFit = [
+            "alphaP[0., -5., 5.]",
+            "alphaF[0., -5., 5.]",
+            "Exponential::bkgPass(x, alphaP)",
+            "Exponential::bkgFail(x, alphaF)",
+        ]
 
     tnpWorkspace = []
     doTemplate = True
@@ -171,11 +191,11 @@ def hist_fitter(outFName, inFName, binName, templateFName, plotDir,
             fitter.set_fit_range(2.90, 3.30)
     else:
         if shiftType == 'massRangeUp':
-            fitter.set_fit_range(75, 135)
+            fitter.set_fit_range(75, 115)
         elif shiftType == 'massRangeDown':
-            fitter.set_fit_range(65, 125)
+            fitter.set_fit_range(65, 105)
         else:
-            fitter.set_fit_range(70, 130)
+            fitter.set_fit_range(70, 110)
 
     # setup
     os.makedirs(os.path.dirname(outFName), exist_ok=True)
