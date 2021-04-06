@@ -1,6 +1,5 @@
 {
     "efficiencies": [
-        ["LooseID", "TrackerMuons"],
 	["MediumID", "TrackerMuons"]
     ],
     "selection": "tag_pt>26 and tag_abseta<2.4 and HLT_IsoMu24_v==1 and tag_relIso04<0.2 and abs(pair_dz)<0.5 and abs(probe_dxy) < 0.2 and abs(probe_dz) < 0.5",
@@ -24,7 +23,7 @@
     "variables": {
         "pt": {"variable": "probe_pt", "pretty": "p_{T} (GeV)"},
         "abseta": {"variable": "probe_abseta", "pretty": "|#eta|"},
-        "eta": {"variable": "eta", "pretty": "#eta"},
+        "eta": {"variable": "probe_eta", "pretty": "#eta"},
         "njets": {"variable": "nTightJets", "pretty": "Number of jets (p_{T} > 30 GeV)"},
         "nvtx": {"variable": "nVertices", "pretty": "Number of primary vertices"},
         "mass": {"variable": "pair_mass", "pretty": "m(#mu#mu) (GeV)"},
@@ -44,22 +43,26 @@
 	}
     },
     "fitShifts": {
-	"AltSig": {"fitType": "AltSig"},
-	"tagIsoUp": {"shiftType": "tagIsoUp", "inType": "TagIsoUp"},
-	"tagIsoDown": {"shiftType": "tagIsoDown", "inType": "TagIsoDown"}
+        "AltSig": {"fitType": "AltSig"},
+        "tagIsoUp": {"shiftType": "tagIsoUp", "inType": "TagIsoUp"},
+        "tagIsoDown": {"shiftType": "tagIsoDown", "inType": "TagIsoDown"},
+        "massBinUp": {"shiftType": "massBinUp"},
+        "massBinDown": {"shiftType": "massBinDown"},
+        "massRangeUp": {"shiftType": "massRangeUp"},
+        "massRangeDown": {"shiftType": "massRangeDown"}
     },
     "systematics" : {
         "SF": {
             "fitTypes": ["AltSig"],
-            "shiftTypes": ["tagIso"]
+            "shiftTypes": ["tagIso", "massBin", "massRange"]
         },
         "dataEff": {
             "fitTypes": ["AltSig"],
-            "shiftTypes": ["tagIso"]
+            "shiftTypes": ["tagIso", "massBin", "massRange"]
         },
         "mcEff": {
             "fitTypes": [],
-            "shiftTypes": ["tagIso"]
+            "shiftTypes": ["tagIso", "massRange"]
         }
     }
 }
