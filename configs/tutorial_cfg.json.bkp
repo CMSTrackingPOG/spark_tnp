@@ -1,6 +1,7 @@
 {
     "efficiencies": [
-        ["MediumID", "TrackerMuons"]
+        ["LooseID", "TrackerMuons"],
+	["MediumID", "TrackerMuons"]
     ],
     "selection": "tag_pt>26 and tag_abseta<2.4 and HLT_IsoMu24_v==1 and tag_relIso04<0.2 and abs(pair_dz)<0.5 and abs(probe_dxy) < 0.2 and abs(probe_dz) < 0.5",
     "definitions": {
@@ -35,21 +36,30 @@
 	["abseta", "pt"]
     ],
     "shifts": {
+	"TagIsoUp": {
+    	    "selection": "tag_pt>26 and tag_abseta<2.4 and HLT_IsoMu24_v==1 and tag_relIso04<0.3 and abs(pair_dz)<0.5 and abs(probe_dxy) < 0.2 and abs(probe_dz) < 0.5"
+	},
+	"TagIsoDown": {
+    	    "selection": "tag_pt>26 and tag_abseta<2.4 and HLT_IsoMu24_v==1 and tag_relIso04<0.1 and abs(pair_dz)<0.5 and abs(probe_dxy) < 0.2 and abs(probe_dz) < 0.5"
+	}
     },
     "fitShifts": {
+	"AltSig": {"fitType": "AltSig"},
+	"tagIsoUp": {"shiftType": "tagIsoUp", "inType": "TagIsoUp"},
+	"tagIsoDown": {"shiftType": "tagIsoDown", "inType": "TagIsoDown"}
     },
     "systematics" : {
         "SF": {
-            "fitTypes": [],
-            "shiftTypes": []
+            "fitTypes": ["AltSig"],
+            "shiftTypes": ["tagIso"]
         },
         "dataEff": {
-            "fitTypes": [],
-            "shiftTypes": []
+            "fitTypes": ["AltSig"],
+            "shiftTypes": ["tagIso"]
         },
         "mcEff": {
             "fitTypes": [],
-            "shiftTypes": []
+            "shiftTypes": ["tagIso"]
         }
     }
 }
