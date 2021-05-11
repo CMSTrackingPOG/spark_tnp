@@ -78,7 +78,7 @@ def get_allowed_sub_eras(resonance, era):
             'Run2018_dR0p4': ['Run2018'] + [
                f'Run2018{b}' for b in 'ABCD']+['DY_madgraph'],
 	    # for tutorial
-	    'Run2018_tutorial': ['Run2018'] + ['Run2018A'] + ['DY_madgraph']
+	    'Run2018_tutorial': ['Run2018'] + ['Run2018D'] + ['DY_madgraph']
         },
         'JPsi': {
             # ultra legacy
