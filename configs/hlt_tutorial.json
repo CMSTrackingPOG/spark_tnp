@@ -9,9 +9,8 @@
         "IsoMu24": "IsoMu24==1"
     },
     "binning": {
-        "pt26": [26, 9999],
-        "pt": [20, 22, 24, 26, 30, 40, 60, 120, 200],
-        "abseta": [0, 0.9, 1.2, 2.1, 2.4],
+        "pt": [20, 22, 24, 26, 30, 40, 60, 120],
+        "abseta": [0, 1.2, 2.4],
         "eta": [-2.4, -2.1, -1.2, -0.9, 0, 0.9, 1.2, 2.1, 2.4],
         "charge": [-2,0,2],
         "nvtx": "np.array(range(0,30+1))*2 + 0.5",
@@ -19,7 +18,6 @@
         "mcMass": "np.array(range(60*4, 140*4+1)) * 0.25"
     },
     "variables": {
-        "ptsingle": {"variable": "pt", "pretty": "p_{T} (GeV)"},
         "pt": {"variable": "pt", "pretty": "p_{T} (GeV)"},
         "abseta": {"variable": "abseta", "pretty": "|#eta|"},
         "eta": {"variable": "eta", "pretty": "#eta"},
@@ -31,8 +29,7 @@
     "fitVariable": "mass",
     "fitVariableGen": "mcMass",
     "binVariables": [
-        ["pt"],
-        ["pt26", "eta"]
+        ["abseta", "pt"]
     ],
     "shifts": {
     },
