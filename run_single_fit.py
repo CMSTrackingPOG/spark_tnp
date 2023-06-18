@@ -34,8 +34,8 @@ def setMassRange(fitter, resonance, effType, shiftType):
             elif shiftType == 'massRangeDown':
                 fitter.set_fit_range(65, 105)
             else:
-                fitter.set_fit_range(70, 115)
-                #fitter.set_fit_range(40, 149.125)
+                #fitter.set_fit_range(70, 115)
+                fitter.set_fit_range(40, 149.125)
 
 
 def hist_fitter(outFName, inFName, binName, templateFName, plotDir,
@@ -66,7 +66,7 @@ def hist_fitter(outFName, inFName, binName, templateFName, plotDir,
             # "RooCMSShape::bkgPass(x, acmsP, betaP, gammaP, peakP)",
             # "RooCMSShape::bkgFail(x, acmsF, betaF, gammaF, peakF)",
         ]
-    else:
+    else: #if resonance == 'Z':
         tnpNomFitSig = [
         #"meanP[-0.0, -5.0, 5.0]", "sigmaP[0.9, 0.05, 5.0]",
         #"meanF[-0.0, -5.0, 5.0]", "sigmaF[0.9, 0.05, 5.0]",
@@ -83,30 +83,30 @@ def hist_fitter(outFName, inFName, binName, templateFName, plotDir,
         # Exponential is the nominal bkg shape for trigger SFs
         if effType=='trig':
             tnpNomFitBkg = [
-                #"alphaP[-0.1, -1., 0.1]",
-                #"alphaF[-0.1, -1., 0.1]",
-                #"Exponential::bkgPass(x, alphaP)",
-                #"Exponential::bkgFail(x, alphaF)",
-                "acmsP[80., 50., 140.]", "betaP[0.05, 0.01, 0.08]",
-                "gammaP[-0.1, -1., 0.1]", "peakP[91.0]",
-                "acmsF[80., 50., 140.]", "betaF[0.05, 0.01, 0.08]",
-                "gammaF[-0.1, -1., 0.1]", "peakF[91.0]",
-                "RooCMSShape::bkgPass(x, acmsP, betaP, gammaP, peakP)",
-                "RooCMSShape::bkgFail(x, acmsF, betaF, gammaF, peakF)",
+                "alphaP[-0.1, -5., 5.0]",
+                "alphaF[-0.1, -5., 5.0]",
+                "Exponential::bkgPass(x, alphaP)",
+                "Exponential::bkgFail(x, alphaF)",
+                #"acmsP[80., 50., 140.]", "betaP[0.05, 0.01, 0.08]",
+                #"gammaP[-0.1, -1., 0.1]", "peakP[91.0]",
+                #"acmsF[80., 50., 140.]", "betaF[0.05, 0.01, 0.08]",
+                #"gammaF[-0.1, -1., 0.1]", "peakF[91.0]",
+                #"RooCMSShape::bkgPass(x, acmsP, betaP, gammaP, peakP)",
+                #"RooCMSShape::bkgFail(x, acmsF, betaF, gammaF, peakF)",
 
             ]
         else:
             tnpNomFitBkg = [
-                #"alphaP[-0.1, -1., 0.1]",
-                #"alphaF[-0.1, -1., 0.1]",
-                #"Exponential::bkgPass(x, alphaP)",
-                #"Exponential::bkgFail(x, alphaF)",
-                "acmsP[80., 50., 140.]", "betaP[0.05, 0.01, 0.08]",
-                "gammaP[-0.1, -2, 2]", "peakP[91.0]",
-                "acmsF[80., 50., 140.]", "betaF[0.05, 0.01, 0.08]",
-                "gammaF[-0.1, -2, 2]", "peakF[91.0]",
-                "RooCMSShape::bkgPass(x, acmsP, betaP, gammaP, peakP)",
-                "RooCMSShape::bkgFail(x, acmsF, betaF, gammaF, peakF)",
+                "alphaP[-0.1, -5., 5.0]",
+                "alphaF[-0.1, -5., 5.0]",
+                "Exponential::bkgPass(x, alphaP)",
+                "Exponential::bkgFail(x, alphaF)",
+                #"acmsP[80., 50., 140.]", "betaP[0.05, 0.01, 0.08]",
+                #"gammaP[-0.1, -2, 2]", "peakP[91.0]",
+                #"acmsF[80., 50., 140.]", "betaF[0.05, 0.01, 0.08]",
+                #"gammaF[-0.1, -2, 2]", "peakF[91.0]",
+                #"RooCMSShape::bkgPass(x, acmsP, betaP, gammaP, peakP)",
+                #"RooCMSShape::bkgFail(x, acmsF, betaF, gammaF, peakF)",
 
             ]
 
@@ -131,17 +131,17 @@ def hist_fitter(outFName, inFName, binName, templateFName, plotDir,
     ]
     tnpNomFitOldBkg = [
         ############ First pre-approval #################
-        #"alphaP[-0.1, -1., 0.1]",
-        #"alphaF[-0.1, -1., 0.1]",
-        #"Exponential::bkgPass(x, alphaP)",
-        #"Exponential::bkgFail(x, alphaF)",
+        "alphaP[-0.1, -5., 5.0]",
+        "alphaF[-0.1, -5., 5.0]",
+        "Exponential::bkgPass(x, alphaP)",
+        "Exponential::bkgFail(x, alphaF)",
         #################################################
-        "acmsP[90., 80., 100.]", "betaP[0.05, 0.01, 0.08]",
-        "gammaP[0.1, -2, 2]", "peakP[90.0]",
-        "acmsF[90., 80., 100.]", "betaF[0.05, 0.01, 0.08]",
-        "gammaF[0.1, -2, 2]", "peakF[90.0]",
-        "RooCMSShape::bkgPass(x, acmsP, betaP, gammaP, peakP)",
-        "RooCMSShape::bkgFail(x, acmsF, betaF, gammaF, peakF)"
+        #"acmsP[90., 80., 100.]", "betaP[0.05, 0.01, 0.08]",
+        #"gammaP[0.1, -2, 2]", "peakP[90.0]",
+        #"acmsF[90., 80., 100.]", "betaF[0.05, 0.01, 0.08]",
+        #"gammaF[0.1, -2, 2]", "peakF[90.0]",
+        #"RooCMSShape::bkgPass(x, acmsP, betaP, gammaP, peakP)",
+        #"RooCMSShape::bkgFail(x, acmsF, betaF, gammaF, peakF)"
         
     ]
 
@@ -206,17 +206,21 @@ def hist_fitter(outFName, inFName, binName, templateFName, plotDir,
     # AltBkg
     if effType=='trig':
         tnpAltBkgFit = [
-            "acmsP[60., 50., 190.]", "betaP[0.05, 0.01, 0.08]",
-            "gammaP[0.1, -2, 2]", "peakP[91.0]",
-            "acmsF[60., 50., 190.]", "betaF[0.05, 0.01, 0.08]",
-            "gammaF[0.1, -2, 2]", "peakF[91.0]",
-            "RooCMSShape::bkgPass(x, acmsP, betaP, gammaP, peakP)",
-            "RooCMSShape::bkgFail(x, acmsF, betaF, gammaF, peakF)",
+            "alphaP[-0.1, -5., 5.0]",
+            "alphaF[-0.1, -5., 5.0]",
+            "Exponential::bkgPass(x, alphaP)",
+            "Exponential::bkgFail(x, alphaF)",
+            #"acmsP[60., 50., 190.]", "betaP[0.05, 0.01, 0.08]",
+            #"gammaP[0.1, -2, 2]", "peakP[91.0]",
+            #"acmsF[60., 50., 190.]", "betaF[0.05, 0.01, 0.08]",
+            #"gammaF[0.1, -2, 2]", "peakF[91.0]",
+            #"RooCMSShape::bkgPass(x, acmsP, betaP, gammaP, peakP)",
+            #"RooCMSShape::bkgFail(x, acmsF, betaF, gammaF, peakF)",
         ]
     else:
         tnpAltBkgFit = [
-            "alphaP[0., -5., 5.]",
-            "alphaF[0., -5., 5.]",
+            "alphaP[-0.1, -5., 5.0]",
+            "alphaF[-0.1, -5., 5.0]",
             "Exponential::bkgPass(x, alphaP)",
             "Exponential::bkgFail(x, alphaF)",
         ]

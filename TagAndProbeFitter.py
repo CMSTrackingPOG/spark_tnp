@@ -16,11 +16,11 @@ class TagAndProbeFitter:
         self._hists = {}
         self._resonance = resonance
         if resonance == 'Z':
-            self._peak = 90
-            self._fit_var_min = 60
-            self._fit_var_max = 140
-            self._fit_range_min = 70
-            self._fit_range_max = 115
+            self._peak = 91
+            self._fit_var_min = 40
+            self._fit_var_max = 150
+            self._fit_range_min = 40
+            self._fit_range_max = 149.125
             #self._fit_var_min = 30
             #self._fit_var_max = 160
             #self._fit_range_min = 40
