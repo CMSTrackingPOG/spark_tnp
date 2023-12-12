@@ -28,7 +28,7 @@ extraOverCmsTextSize = 0.76
 
 lumi_14TeV = "20.1 fb^{-1}"
 lumi_13TeV = "59.83 fb^{-1}"
-lumi_13p6TeV = "13.8 fb^{-1}"
+lumi_13p6TeV = "7.6 fb^{-1}"
 lumi_8TeV = "19.7 fb^{-1}"
 lumi_7TeV = "5.1 fb^{-1}"
 lumi_sqrtS = ""
