@@ -61,12 +61,16 @@ def build_condor_submit(joblist, test=False, jobsPerSubmit=1, njobs=1):
         )
         flavour = 'espresso'
 
-    output = 'condor/job.$(ClusterId).$(ProcId).out' if test else '/dev/null'
-    error = 'condor/job.$(ClusterId).$(ProcId).err' if test else '/dev/null'
+    output = 'condor/job.$(ClusterId).$(ProcId).out' if test else './log.out'
+    error = 'condor/job.$(ClusterId).$(ProcId).err' if test else './log.err'
     log = 'condor/job.$(ClusterId).$(ProcId).log' if test else '/dev/null'
 
+#previous version: the following line was required within the config:
+#environment = "SINGULARITY_BINDPATH='/cvmfs,/cvmfs/grid.cern.ch/etc/grid-security/vomses:/etc/vomses,/cvmfs/grid.cern.ch/etc/grid-security:/etc/grid-security'"
+#+SingularityImage = "/cvmfs/unpacked.cern.ch/registry.hub.docker.com/cmssw/el9:x86_64"
+
     config = '''universe    = vanilla
-executable  = condor_wrapper.sh
+executable  = condor_wrapper.sh  
 arguments   = {arguments}
 transfer_input_files = {files}
 output      = {output}
