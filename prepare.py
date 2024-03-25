@@ -283,7 +283,8 @@ def prepare(baseDir, particle, probe, resonance, era,
     effName = get_eff_name(num, denom)
     extEffName = get_extended_eff_name(num, denom, variableLabels)
     binning = config.binning()
-    dataSubEra, mcSubEra, mcSubEraAlt = get_data_mc_sub_eras(resonance, era)
+    #dataSubEra, mcSubEra, mcSubEraAlt = get_data_mc_sub_eras(resonance, era)
+    dataSubEra, mcSubEra = get_data_mc_sub_eras(resonance, era)
 
     systList = config.get('systematics',
                           {x: {'fitTypes': [],
@@ -603,16 +604,22 @@ def prepare(baseDir, particle, probe, resonance, era,
                 "edges": edges,
                 "content": content
             })
+        inputs = [
+            {"name": vl, "description": f"descrizione_{vl}", "type": "real"} for vl in variableLabels
+            ] + [ 
+            {"name": "uncertainties", "description": "descrizione_uncertainties", "type": "string"},
+        ]
 
-        inputs = [{"name": vl, "type": "real"} for vl in variableLabels]
-        inputs += [{"name": "uncertainties", "type": "string"}]
+        output = {"name": "weight", "description": "descrizione_weight", "type": "real"}
+        #inputs = [{"name": vl, "type": "real"} for vl in variableLabels]
+        #inputs += [{"name": "uncertainties", "type": "string"}]
 
         corr = schemav1.Correction.parse_obj({
                 "version": 1,
                 "name": effName,
                 "description": effName,
                 "inputs": inputs,
-                "output": {"name": "weight", "type": "real"},
+                "output": output,
                 "data": build_schema(1, tuple([1]*len(variableLabels)))
         })
         cset = schemav1.CorrectionSet.parse_obj({
@@ -621,8 +628,16 @@ def prepare(baseDir, particle, probe, resonance, era,
         })
 
         # Write out schema json
+        #with open('{}_schemaV1.json'.format(effPath), "w") as fout:
+         #   fout.write(cset.json(exclude_unset=True, indent=4))
+            #fout.write(cset.json(exclude_unset=True, indent=4, exclude_none=True))
+
+
+            # Write out schema json
         with open('{}_schemaV1.json'.format(effPath), "w") as fout:
-            fout.write(cset.json(exclude_unset=True, indent=4))
+            json.dump(cset.dict(exclude_unset=True), fout, indent=4)
+
+
 
     else:
         print("Warning: correctionlib not installed. Not producing schema jsons.")

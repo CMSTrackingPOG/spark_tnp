@@ -27,13 +27,14 @@ def setMassRange(fitter, resonance, effType, shiftType):
             elif shiftType == 'massRangeDown':
                 fitter.set_fit_range(65, 125)
             else:
-                fitter.set_fit_range(70, 130)
+                fitter.set_fit_range(40, 150)
         else:
             if shiftType == 'massRangeUp':
                 fitter.set_fit_range(75, 115)
             elif shiftType == 'massRangeDown':
                 fitter.set_fit_range(65, 105)
             else:
+                #fitter.set_fit_range(40, 150)
                 fitter.set_fit_range(70, 115)
                 #fitter.set_fit_range(40, 149.125)
 
@@ -65,48 +66,69 @@ def hist_fitter(outFName, inFName, binName, templateFName, plotDir,
             # "gammaF[0.1, -20, 20]", "peakF[3.1]",
             # "RooCMSShape::bkgPass(x, acmsP, betaP, gammaP, peakP)",
             # "RooCMSShape::bkgFail(x, acmsF, betaF, gammaF, peakF)",
+            
         ]
     else:
+
+        ROOT.gSystem.Load("./RooDCBShape_cxx.so")
         tnpNomFitSig = [
-        #"meanP[-0.0, -5.0, 5.0]", "sigmaP[0.9, 0.05, 5.0]",
-        #"meanF[-0.0, -5.0, 5.0]", "sigmaF[0.9, 0.05, 5.0]",
+        #"RooCBShape::cb(mass, mean[91,85,95], sigma[5,1,30], alphaL[3,-25,25], nL[5,-25,25])",
+        #"meanP[0.0, -5, 5]", "sigmaP[0.9, 0.05, 5.0]",
+        #"meanF[0.0, -5, 5]", "sigmaF[0.9, 0.05, 5.0]",
         #"Gaussian::sigResPass(x, meanP, sigmaP)",
         #"Gaussian::sigResFail(x, meanF, sigmaF)",
-        "meanP[91.0,70,115]", "sigmaP[5,1,30]",
-        "widthP[2.495,1.2,5.0]", 
-        "meanF[91.0,85,95]", "sigmaF[5,2.5,7.5]",
-        "widthF[2.495,1.2,3.6]",
-        "Voigtian::sigPass(x, meanP, widthP, sigmaP)",
-        "Voigtian::sigFail(x, meanF, widthF, sigmaF)",
+        #"meanP[91,70,115]", "sigmaP[5,1,30]", 
+        #"meanP[91, 85, 95 ]", "sigmaP[1,0.1,3]",
+        #"widthP[2.495,1,5]", 
+        ##"widthP[3.8,3,7,4]", 
+        #"meanF[91,80,100]", "sigmaF[5,1,30]", 
+        ##"meanF[91,85,95]", "sigmaF[1,0.1,10]",
+        #"widthF[2.495,1,5]",
+        #"Voigtian::sigPass(x, meanP, widthP, sigmaP)",
+        #"Voigtian::sigFail(x, meanF, widthF, sigmaF)",
 
+        "meanP[91,85,95]", "sigmaP[2,0.1,5]", "alphaLP[1,0.5,2]", "alphaRP[1,0.5,2]","nLP[1.5,1,2.5]","nRP[1.5,1,2.5]",
+        "meanF[91,70,115]", "sigmaF[2,0.1,5]", "alphaLF[1,0.5,2]", "alphaRF[1,0.5,2]","nLF[1.5,1,2.5]","nRF[1.5,1,2.5]",
+        "RooDCBShape::sigPass(x, meanP, sigmaP, alphaLP, alphaRP, nLP, nRP)",
+        "RooDCBShape::sigFail(x, meanF, sigmaF, alphaLF, alphaRF, nLF, nRF)",
+ 
         ]
         # Exponential is the nominal bkg shape for trigger SFs
         if effType=='trig':
             tnpNomFitBkg = [
-                #"alphaP[-0.1, -1., 0.1]",
-                #"alphaF[-0.1, -1., 0.1]",
+                #"alphaP[-0.1, -1., 1.]",  #upper bound 0.1 original 
+                #"alphaF[-0.1, -1., 1.]",   #upper bound 0.1 original
                 #"Exponential::bkgPass(x, alphaP)",
                 #"Exponential::bkgFail(x, alphaF)",
-                "acmsP[80., 50., 140.]", "betaP[0.05, 0.01, 0.08]",
-                "gammaP[-0.1, -1., 0.1]", "peakP[91.0]",
-                "acmsF[80., 50., 140.]", "betaF[0.05, 0.01, 0.08]",
-                "gammaF[-0.1, -1., 0.1]", "peakF[91.0]",
-                "RooCMSShape::bkgPass(x, acmsP, betaP, gammaP, peakP)",
-                "RooCMSShape::bkgFail(x, acmsF, betaF, gammaF, peakF)",
+                #"acmsP[80., 50., 140.]", "betaP[0.05, 0.01, 0.08]",
+                #"gammaP[-0.1, -1., 0.1]", "peakP[91.0]",
+                #"acmsF[80., 50., 140.]", "betaF[0.05, 0.01, 0.08]",
+                #"gammaF[-0.1, -1., 0.1]", "peakF[91.0]",
+                #"RooCMSShape::bkgPass(x, acmsP, betaP, gammaP, peakP)",
+                #"RooCMSShape::bkgFail(x, acmsF, betaF, gammaF, peakF)",
 
             ]
         else:
             tnpNomFitBkg = [
-                #"alphaP[-0.1, -1., 0.1]",
-                #"alphaF[-0.1, -1., 0.1]",
-                #"Exponential::bkgPass(x, alphaP)",
-                #"Exponential::bkgFail(x, alphaF)",
-                "acmsP[80., 50., 140.]", "betaP[0.05, 0.01, 0.08]",
-                "gammaP[-0.1, -2, 2]", "peakP[91.0]",
-                "acmsF[80., 50., 140.]", "betaF[0.05, 0.01, 0.08]",
-                "gammaF[-0.1, -2, 2]", "peakF[91.0]",
-                "RooCMSShape::bkgPass(x, acmsP, betaP, gammaP, peakP)",
-                "RooCMSShape::bkgFail(x, acmsF, betaF, gammaF, peakF)",
+                "alphaP[-0.1, -2, 0.1]",
+                "alphaF[-0.1, -2, 0.1]",
+                "Exponential::bkgPass(x, alphaP)",
+                "Exponential::bkgFail(x, alphaF)",
+                #"acmsP[80., 50., 140.]", "betaP[0.05, 0.01, 0.08]",
+                #"gammaP[-0.1, -1., 0.1]", "peakP[91.0]",
+                #"acmsF[80., 50., 140.]", "betaF[0.05, 0.01, 0.08]",
+                #"gammaF[-0.1, -1., 0.1]", "peakF[91.0]",
+                #"RooCMSShape::bkgPass(x, acmsP, betaP, gammaP, peakP)",
+                #"RooCMSShape::bkgFail(x, acmsF, betaF, gammaF, peakF)",
+                #"acmsP[60., 50., 190.]", "betaP[0.05, 0.01, 0.08]",
+                #"gammaP[0.1, -2, 2]", "peakP[91.0]",
+                ##"acmsF[60., 50., 190.]", "betaF[0.05, 0.01, 0.08]",
+                ##"gammaF[0.1, -2, 2]", "peakF[91.0]",
+                #"RooCMSShape::bkgPass(x, acmsP, betaP, gammaP, peakP)",
+                ##"RooCMSShape::bkgFail(x, acmsF, betaF, gammaF, peakF)",
+
+
+
 
             ]
 
@@ -253,10 +275,9 @@ def hist_fitter(outFName, inFName, binName, templateFName, plotDir,
             hP = hP.Rebin(4)  # 1.0 GeV bins
             hF = hF.Rebin(4)  # 1.0 GeV bins
         else:
-            hP = hP.Rebin(1)  # 0.5 GeV bins
-            hF = hF.Rebin(1)  # 0.5 GeV bins
-            #hP = hP.Rebin(4.5) # 1.125 GeV bins
-            #hF = hF.Rebin(4.5) # 1.125 GeV bins
+            hP = hP.Rebin(1)  # 1.125 GeV bins
+            hF = hF.Rebin(1)  # 1.125 GeV bins
+          
         return hP, hF
 
     # setup

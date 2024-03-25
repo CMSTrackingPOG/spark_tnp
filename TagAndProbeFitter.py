@@ -1,7 +1,9 @@
 from array import array
 import ROOT
+import os
 import tdrstyle
 import CMS_lumi
+
 ROOT.gROOT.SetBatch()
 tdrstyle.setTDRStyle()
 
@@ -16,7 +18,7 @@ class TagAndProbeFitter:
         self._hists = {}
         self._resonance = resonance
         if resonance == 'Z':
-            self._peak = 90
+            self._peak = 91 #important
             self._fit_var_min = 60
             self._fit_var_max = 140
             self._fit_range_min = 70
@@ -24,7 +26,7 @@ class TagAndProbeFitter:
             #self._fit_var_min = 30
             #self._fit_var_max = 160
             #self._fit_range_min = 40
-            #self._fit_range_max = 149.125
+            #self._fit_range_max = 150
         elif resonance == 'JPsi':
             self._peak = 3.10
             self._fit_var_min = 2.80
@@ -191,13 +193,19 @@ class TagAndProbeFitter:
         hFailName = 'hFail' if not fitSignalOnly else 'hSigFail'
             
         # fit passing histogram
+        #resPass = pdfPass.fitTo(self._w.data(hPassName),
+        #                        ROOT.RooFit.Minos(self._useMinos),
+        #                        ROOT.RooFit.SumW2Error(True),
+        #                        ROOT.RooFit.Save(),
+        #                        ROOT.RooFit.Range("fitRange"),
+        #                        )
         resPass = pdfPass.fitTo(self._w.data(hPassName),
-                                ROOT.RooFit.Minos(self._useMinos),
-                                ROOT.RooFit.SumW2Error(True),
+                                ROOT.RooFit.Minimizer("Minuit", "minimize"),
+                                ROOT.RooFit.Optimize(1),
                                 ROOT.RooFit.Save(),
                                 ROOT.RooFit.Range("fitRange"),
-                                )
-
+                                ROOT.RooFit.Minos(True),
+                            )
         # when convolving, set fail sigma to fitted pass sigma
         if template:
             self._w.var('sigmaF').setVal(
@@ -207,13 +215,19 @@ class TagAndProbeFitter:
                 3.0 * self._w.var('sigmaP').getVal())
 
         # fit failing histogram
+        #resFail = pdfFail.fitTo(self._w.data(hFailName),
+        #                        ROOT.RooFit.Minos(self._useMinos),
+        #                        ROOT.RooFit.SumW2Error(True),
+        #                        ROOT.RooFit.Save(),
+        #                        ROOT.RooFit.Range("fitRange"),
+        #                        )
         resFail = pdfFail.fitTo(self._w.data(hFailName),
-                                ROOT.RooFit.Minos(self._useMinos),
-                                ROOT.RooFit.SumW2Error(True),
+                                ROOT.RooFit.Minimizer("Minuit", "minimize"),
+                                ROOT.RooFit.Optimize(1),
                                 ROOT.RooFit.Save(),
                                 ROOT.RooFit.Range("fitRange"),
-                                )
-
+                                ROOT.RooFit.Minos(True),
+                            )
         # plot
         # need to run chi2 after plotting full pdf
 
@@ -367,8 +381,7 @@ class TagAndProbeFitter:
         #text1 = ROOT.TPaveText(0, 0.9, 1, 1)
         #text1.SetFillColor(0)
         #text1.SetBorderSize(0)
-        #text1.SetTextAlign(12)
-
+        #text1.SetTextAlign(12)#
         #text1.AddText("Fit status pass: {}, fail: {}".format(
         #    resPass.status(), resFail.status()))
         #text1.AddText("#chi^{{2}}/ndof pass: {:.3f}, fail: {:.3f}".format(
@@ -385,6 +398,7 @@ class TagAndProbeFitter:
         else:
             text.AddText('efficiency = ({:.2f} #pm {:.2f}) %'.format(eff*100, e_eff*100))
         text.GetListOfLines().Last().SetTextFont(62)
+        text.AddText("#chi^{{2}}/ndof pass: {:.3f}, fail: {:.3f}".format(chi2p, chi2f))
         text.AddText("    --- parameters ")
 
         def argsetToList(argset):
@@ -419,9 +433,15 @@ class TagAndProbeFitter:
                 pName = pName.replace('sigma','#sigma')
             if 'width' in pName:
                 pName = pName.replace('width','#Gamma')
-            if 'n' in pName:
+            if ('n' in pName and not ('nL'in pName or 'nR' in pName)):
                 text.AddText('    - {} \t= ({:.2f} #pm {:.2f}) #times 10^{{3}}'.format(
                     pName, pVar.getVal()/1000, pVar.getError()/1000))
+            if 'nL' in pName:
+                text.AddText('    - {} \t= ({:.2f} #pm {:.2f}) '.format(
+                    pName, pVar.getVal(), pVar.getError()))
+            if 'nR' in pName:
+                text.AddText('    - {} \t= ({:.2f} #pm {:.2f}) '.format(
+                    pName, pVar.getVal(), pVar.getError()))           
             if 'alpha' in pName:
                 text.AddText('    - {} \t= ({:.2f} #pm {:.2f}) #times 10^{{-2}}'.format(
                     pName, pVar.getVal()*100, pVar.getError()*100))
@@ -473,9 +493,15 @@ class TagAndProbeFitter:
             if '#Gamma' in pName:
                 text.AddText('    - {} \t= ({:.2f} #pm {:.2f}) #times 10^{{-2}}'.format(
                     pName, pVar.getVal()*100, pVar.getError()*100))
-            if 'n' in pName:
+            if ('n' in pName and not ('nL'in pName or 'nR' in pName)):
                 text.AddText('    - {} \t= ({:.2f} #pm {:.2f}) #times 10^{{3}}'.format(
                     pName, pVar.getVal()/1000, pVar.getError()/1000))
+            if 'nL' in pName:
+                text.AddText('    - {} \t= ({:.2f} #pm {:.2f}) '.format(
+                    pName, pVar.getVal(), pVar.getError()))
+            if 'nR' in pName:
+                text.AddText('    - {} \t= ({:.2f} #pm {:.2f}) '.format(
+                    pName, pVar.getVal(), pVar.getError()))     
             if 'mu' in pName:
                 text.AddText('    - {} \t= ({:.2f} #pm {:.2f}) #times 10^{{-2}}'.format(
                     pName, pVar.getVal()*100, pVar.getError()*100))
@@ -497,7 +523,7 @@ class TagAndProbeFitter:
         latP.Draw()
         CMS_lumi.cmsText = 'CMS'
         CMS_lumi.writeExtraText = True
-        CMS_lumi.extraText = 'Preliminary'
+        CMS_lumi.extraText = 'Preliminary'  
         #CMS_lumi.extraText = 'Work in progress'
         CMS_lumi.CMS_lumi(canvas.cd(2), 4, 11)
         plotpadP.SetTopMargin(0.06)
