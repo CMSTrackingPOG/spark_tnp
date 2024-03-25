@@ -29,6 +29,7 @@ def get_allowed_eras(resonance):
             'Run2018',
             'Run2022',
             'Run2022_EE',
+            'Run2023'
         ],
         'JPsi': [
             # heavy ion
@@ -85,9 +86,12 @@ def get_allowed_sub_eras(resonance, era):
             'Run2018': ['Run2018'] + [
                f'Run2018{b}' for b in 'ABCD']+['DY_madgraph'],
             'Run2022': ['Run2022'] + [
-               f'Run2022{b}' for b in 'B']+['DY_madgraph'],
+               f'Run2022{b}' for b in 'BCD']+['DY_madgraph'],
             'Run2022_EE': ['Run2022_EE'] + [
-               f'Run2022{b}' for b in 'EFG']+['DY_madgraph'],
+               f'Run2022{b}' for b in 'E']+['DY_amcatnlo'],
+            'Run2023': ['Run2023'] + [
+               f'Run2023{b}' for b in 'D']+['DY_madgraph'],
+
         },
         'JPsi': {
             # ultra legacy
@@ -111,7 +115,7 @@ def get_allowed_sub_eras(resonance, era):
             'Run2022': ['Run2022'] + [
                f'Run2022{b}' for b in 'B']+['DY_madgraph'],
             'Run2022_EE': ['Run2022_EE'] + [
-               f'Run2022{b}' for b in 'EFG']+['DY_madgraph'],
+               f'Run2022{b}' for b in 'E']+['DY_madgraph'],
         },
     }
     return subEras.get(resonance, {}).get(era, [])
@@ -136,9 +140,8 @@ def get_data_mc_sub_eras(resonance, era):
             'Run2017': ['Run2017', 'DY_madgraph'],
             'Run2018': ['Run2018', 'DY_madgraph'],
             'Run2022': ['Run2022', 'DY_madgraph'],
-            'Run2022_EE': ['Run2022_EE', 'DY_madgraph'],
-            'Run2023': ['Run2023'] + [
-               f'Run2023{b}' for b in 'BC']+['DY_madgraph','DY_amcatnlo'],
+            'Run2022_EE': ['Run2022_EE', 'DY_amcatnlo'],
+            'Run2023': ['Run2023', 'DY_madgraph'],
 
         },
         'JPsi': {
